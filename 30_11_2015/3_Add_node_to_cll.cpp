@@ -33,7 +33,7 @@ struct testcases
 /*5*/	{ { 2, 3, 4 }, 3, 1, { 1, 2, 3, 4 }, 4 },
 /*6*/	{ { 1, 2, 2, 3, 3, 3, 5, 5, 7 }, 9, 5, {1, 2, 2, 3, 3, 3, 5, 5, 5, 7}, 10 },
 /*7*/	{ { 1, 2, 3 }, 3, NULL, {NULL, 1, 2, 3}, 4 },
-/*8*/	{ NULL, 1, 5, { 5 } },
+/*8*/	{ NULL, 1, 5, { 5 }, 2 },
 /*9*/	{ NULL, 1, NULL, NULL, 1 }
 };
 
@@ -118,11 +118,7 @@ struct node *insert_node_loop_method(struct node* head, int N)
 
 struct node *insert_node_Recursion_method(struct node *head, int N, struct node *ans)
 {
-	struct node *i = head, *temp, *add;
-
-	add = (struct node*)malloc(sizeof(struct node));
-	add->num = N;
-	add->next = NULL;
+	struct node *i = head, *temp, *add = NULL;
 
 	if (ans == NULL)
 		return add;
@@ -132,12 +128,16 @@ struct node *insert_node_Recursion_method(struct node *head, int N, struct node 
 			i = insert_node_Recursion_method(i->next, N, ans);
 		else
 		{
+			add = (struct node*)malloc(sizeof(struct node));
+			add->num = N;
+			add->next = NULL;
 			if (ans->num >= N)
 				swap(&ans->num, &add->num);
 			temp = i->next;
 			i->next = add;
 			add->next = temp;
 		}
+
 		return ans;
 	}
 }
